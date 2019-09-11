@@ -63,10 +63,10 @@ export default class Layer extends React.Component {
 
     // Function bindings
     this.handleTabs = this.handleTabs.bind(this);
-    this.createLayer = this.createLayer.bind(this);
+    this.createIce = this.createIce.bind(this);
     this.toggleLayer = this.toggleLayer.bind(this);
     this.localUpdate = this.localUpdate.bind(this);
-    this.updateLayer = this.updateLayer.bind(this);
+    this.updateIce = this.updateIce.bind(this);
     this.sendData = this.sendData.bind(this);
 
     //Getting metadata
@@ -117,7 +117,7 @@ export default class Layer extends React.Component {
 
   componentDidMount() {
     this._mounted = true
-    this.createLayer();
+    this.createIce();
   }
 
   /*
@@ -512,7 +512,7 @@ export default class Layer extends React.Component {
 
     if (this.state.datasets != [] && this.state.variables != [] && this.props.state.timestamps !== {} && this.props.state.timestamps !== undefined) {
       if (this.props.state.timestamps !== prevProps.state.timestamps || this.state.current_dataset !== prevState.current_dataset || this.state.current_variable !== prevState.current_variable || this.props.state.projection !== prevProps.state.projection) {
-        this.updateLayer();
+        this.updateIce();
         this.sendData();
         if (this.props.state._firstLayer && this.state.current_dataset !== undefined && this.state.current_variable !== undefined) {
           this.toggleLayer()
@@ -520,17 +520,12 @@ export default class Layer extends React.Component {
           this.props.globalUpdate('_firstLayer', false)
         }
       }//} else if (this.props.state.timestamps != prevProps.state.timestamps && this.props.state.timestamps != undefined) {
-      //  this.updateLayer();
+      //  this.updateIce();
       //}
     }
 
   }
 
-
-  /*
-    Code to be displayed when map is single clicked
-     - Passed into the data layer
-  */
   singleClick(feature) {
 
   }
@@ -630,7 +625,7 @@ export default class Layer extends React.Component {
         [key]: value,
       }, () => {
         this.sendData('update');
-        this.updateLayer();
+        this.updateIce();
       })
     }
   }
@@ -664,7 +659,7 @@ export default class Layer extends React.Component {
 
     ** This does not add the layer to the map **
   */
-  createLayer() {
+  createIce() {
 
     let layer_ice = new ol.layer.Tile(
       {
@@ -748,7 +743,7 @@ export default class Layer extends React.Component {
     Updates the already initialized layer with the data currently set
       Updates layer source
   */
-  updateLayer() {
+  updateIce() {
     //this.sendData('update')
     let layer_ice = this.state.ice_layer;
     let props = layer_ice.getSource().getProperties();
@@ -819,7 +814,7 @@ export default class Layer extends React.Component {
         this.props.mapComponent2.toggleLayer(ice_layer, 'remove')
       }
     } else {
-      this.updateLayer()
+      this.updateIce()
 
       this.setState({
         layerState: 'Remove Layer'

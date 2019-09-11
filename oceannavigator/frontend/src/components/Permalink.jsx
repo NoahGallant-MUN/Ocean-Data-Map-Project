@@ -13,12 +13,12 @@ export default class Permalink extends React.Component {
     this.state = {
       center: true,
       projection: true,
-      basemap: false,
+      basemap: true,
       bathymetry: false,
-      dataset_compare: false,
+      dataset_compare: true,
       zoom: true,
       dataset: true,
-      dataset_1: false,
+      dataset_1: true,
       variable: true,
       depth: true,
       vectortype: true,
@@ -35,7 +35,7 @@ export default class Permalink extends React.Component {
     this.refs.permalink.select();
 
     try {
-      document.execCommand("copy");
+      document.execCommand('copy');
     } catch(err) {
       alert("Please manually copy the selected text.");
     }
@@ -70,7 +70,6 @@ export default class Permalink extends React.Component {
         <br />
         <Panel
           collapsible
-          defaultExpanded
           header={_("Advanced")}
           bsStyle="warning"
         >

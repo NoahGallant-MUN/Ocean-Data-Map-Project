@@ -13,7 +13,7 @@ import IceLayer from "./IceLayer.jsx";
 
 const i18n = require("../i18n.js");
 
-export default class Bathymetry extends React.Component {
+export default class Waves extends React.Component {
   constructor(props) {
     super(props);
 
@@ -23,18 +23,18 @@ export default class Bathymetry extends React.Component {
   render() {    
     
     return (
-        <div>{/*<IceLayer
-          state={this.props.state}
-          swapViews={this.props.swapViews}
-          toggleLayer={this.props.toggleLayer}
-          reloadLayer={this.props.reloadLayer}
-          mapComponent={this.props.mapComponent}
-          globalUpdate={this.props.globalUpdate}
-          showHelp={this.props.showHelp}
-          options={this.props.state.options}
-          updateOptions={this.props.updateOptions}
-        />*/}
-            
+        <div>
+            <IceLayer
+              state={this.props.state}
+              swapViews={this.props.swapViews}
+              toggleLayer={this.props.toggleLayer}
+              reloadLayer={this.props.reloadLayer}
+              mapComponent={this.props.mapComponent}
+              globalUpdate={this.props.globalUpdate}
+              showHelp={this.props.showHelp}
+              options={this.props.state.options}
+              updateOptions={this.props.updateOptions}
+            />
 
         </div>
     );
@@ -42,7 +42,7 @@ export default class Bathymetry extends React.Component {
 }
 
 //***********************************************************************
-Bathymetry.propTypes = {
+Waves.propTypes = {
   state: PropTypes.object,
   sidebarOpen: PropTypes.bool,
   basemap: PropTypes.string,
@@ -51,7 +51,6 @@ Bathymetry.propTypes = {
   bathymetry: PropTypes.bool,
   dataset_compare: PropTypes.bool,
   dataset_1: PropTypes.object,
-  reloadLayer: PropTypes.func,
   projection: PropTypes.string,
   depth: PropTypes.number,
   time: PropTypes.number,

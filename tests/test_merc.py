@@ -1,10 +1,8 @@
-import datetime
 import unittest
-
-import numpy as np
-import pytz
-
 from data.mercator import Mercator
+import numpy as np
+import datetime
+import pytz
 
 
 class TestMercator(unittest.TestCase):
@@ -25,23 +23,6 @@ class TestMercator(unittest.TestCase):
             self.assertEqual(variables['votemper'].name,
                              'Sea water potential temperature')
             self.assertEqual(variables['votemper'].unit, 'Kelvin')
-
-    def test_time_variable(self):
-        with Mercator('tests/testdata/mercator_test.nc') as n:
-            time_var = n.time_variable
-
-            self.assertEqual(time_var.attrs["standard_name"], "time")
-            self.assertEqual(time_var.attrs["long_name"], "Validity time")
-
-    def test_latlon_variables(self):
-        with Mercator('tests/testdata/mercator_test.nc') as n:
-            lat, lon = n.latlon_variables
-
-            self.assertEqual(lat.attrs["long_name"], "Latitude")
-            self.assertEqual(lat.attrs["standard_name"], "latitude")
-
-            self.assertEqual(lon.attrs["long_name"], "Longitude")
-            self.assertEqual(lon.attrs["standard_name"], "longitude")
 
     def test_get_point(self):
         with Mercator('tests/testdata/mercator_test.nc') as n:

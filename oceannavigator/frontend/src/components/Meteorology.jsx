@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import MetLayer from "./MetLayer.jsx";
 import Layer from "./Layer.jsx"
 import { Button } from "react-bootstrap";
 
 const i18n = require("../i18n.js");
 
-export default class LayerWrap extends React.Component {
+export default class Meteorology extends React.Component {
   constructor(props) {
     super(props);
 
@@ -198,7 +199,7 @@ render() {
 }
 
 //***********************************************************************
-LayerWrap.propTypes = {
+Meteorology.propTypes = {
   state: PropTypes.object,
   sidebarOpen: PropTypes.bool,
   basemap: PropTypes.string,
