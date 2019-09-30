@@ -525,7 +525,7 @@ export default class Map extends React.PureComponent {
       }
     }.bind(this));
 
-    /*
+    
     // Info popup balloon
     this.map.on("singleclick", function (e) {
       let toRender = this.state.toRender
@@ -621,7 +621,7 @@ export default class Map extends React.PureComponent {
         }
       }
     }.bind(this));
-    */
+    
 
     var select = new olinteraction.Select({
       style: function (feat, res) {
@@ -760,6 +760,7 @@ export default class Map extends React.PureComponent {
       );
 
       pushSelection();
+      this.props.updateState("plotEnabled", true);
     }.bind(this));
 
     // clear selection when drawing a new box and when clicking on the map
@@ -926,7 +927,7 @@ export default class Map extends React.PureComponent {
   }
 
   reloadLayer() {
-    return//this.map.render();
+    this.forceUpdate();
   }
 
 

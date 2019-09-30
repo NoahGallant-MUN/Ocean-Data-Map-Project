@@ -152,7 +152,7 @@ export default class Layer extends React.Component {
     
   */
   sendData(update) {
-
+    console.warn("SEND DATA")
     let data
     if (this.state.current_map in this.props.state.data) {
       data = jQuery.extend({}, this.props.state.data[this.state.current_map]) // Make a new object so it will trigger componentDidUpdate in other components
@@ -160,8 +160,15 @@ export default class Layer extends React.Component {
       data = {}
     }
     let time_access = this.state.current_map + this.props.layerType + this.props.value + this.state.current_dataset + this.state.current_variable
-
-    if (this.state.current_dataset !== undefined && this.state.current_variable !== undefined && this.props.state.timestamps[time_access] !== undefined) {
+    let time = undefined
+    
+    try {
+      time = this.props.state.timestamps[time_access];
+    } catch (err) {
+      console.warn("No Time Available")
+    }
+    
+    if (this.state.current_dataset !== undefined && this.state.current_variable !== undefined && time !== undefined) {
       if (this.props.layerType in data) {
         if (this.props.value in data[this.props.layerType]) {
           if (data[this.props.layerType] !== undefined || data[this.props.layerType] !== {}) {
@@ -173,7 +180,7 @@ export default class Layer extends React.Component {
               [this.state.current_variable]: {
                 frequency: 1,
                 quantum: this.state.current_quantum,
-                time: this.props.state.timestamps[time_access],
+                time: time,
                 scale: this.state.current_scale,
                 display: this.state.current_display,
                 colourmap: this.state.current_colourmap,
@@ -187,7 +194,7 @@ export default class Layer extends React.Component {
               [this.state.current_variable]: {
                 frequency: 1,
                 quantum: this.state.current_quantum,
-                time: this.props.state.timestamps[time_access],
+                time: time,
                 scale: this.state.current_scale,
                 display: this.state.current_display,
                 colourmap: this.state.current_colourmap,
@@ -203,7 +210,7 @@ export default class Layer extends React.Component {
               [this.state.current_variable]: {
                 frequency: 1,
                 quantum: this.state.current_quantum,
-                time: this.props.state.timestamps[time_access],
+                time: time,
                 scale: this.state.current_scale,
                 display: this.state.current_display,
                 colourmap: this.state.current_colourmap,
@@ -323,6 +330,8 @@ export default class Layer extends React.Component {
       }.bind(this));
     } else {
       console.error("Missing Data")
+      // Update Anyway to prevent future errors
+      this.sendData(update)
       return null
     }
 
@@ -503,8 +512,8 @@ export default class Layer extends React.Component {
         current_variable: variable,
         depths: depths,
         current_depth: 0,
-      });
-      this.sendData('update')
+      }, () => {this.sendData('update'); this.updateDates()});
+      
     }.bind(this))
   }
 
@@ -744,9 +753,9 @@ export default class Layer extends React.Component {
     Retrieve time information and add to layer
   */
   updateDates() {
-    
-    const time_promise = $.ajax("/api/v1.0/timestamps/?dataset=" + this.state.current_dataset);
-
+    let url = "/api/v1.0/timestamps/?dataset=" + this.state.current_dataset + "&variable=" + this.state.current_variable;
+    const time_promise = $.ajax(url);
+    console.warn("UPDATE DATES")
     // Finds depth for new variable (often the same)
     $.when(time_promise).done(function (times) {
       let time = {};
@@ -755,9 +764,13 @@ export default class Layer extends React.Component {
       time.callback = () => {console.warn("CALLBACK FUNCTION")};
       time.idx = this.state.current_map + this.props.layerType + this.props.index + this.state.current_dataset + this.state.current_variable;
       time.icon = this.state.icons[this.props.layerType]
-      
+      console.warn("time.icon: ", time.icon, this.props.layerType, this.state.icons);
       let updated_layer = this.state.layer;
       updated_layer.set('time', time);
+
+      this.setState({
+        layer: updated_layer
+      }, this.props.mapComponent.reloadLayer())
       
     }.bind(this))
   

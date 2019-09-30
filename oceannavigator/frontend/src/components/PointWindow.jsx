@@ -622,6 +622,7 @@ export default class PointWindow extends React.Component {
           range={true}
           key={this.state.time.toISOString()}
           dataset={this.state.dataset}
+          variable={this.state.variable}
           quantum={this.state.dataset_quantum}
           startDate={starttimeObj}
           date={timeObj}
@@ -632,7 +633,8 @@ export default class PointWindow extends React.Component {
       if (showTime) {
         time = <TimePicker
         range={false}
-        key={this.state.starttime.toISOString()}  
+        variable={this.state.variable}
+        key={moment(this.state.starttime)}  
         dataset={this.state.dataset}
         quantum={this.state.dataset_quantum}
         startDate={starttimeObj}
@@ -653,7 +655,7 @@ export default class PointWindow extends React.Component {
         state={this.state.depth}
         def={""}
         onUpdate={this.onLocalUpdate}
-        url={"/api/depth/?variable=" + this.state.variable + "&dataset=" + this.state.dataset + "&all=True"}
+        url={"/api/v1.0/depth/?variable=" + this.state.variable + "&dataset=" + this.state.dataset + "&all=True"}
         title={_("Depth")}></ComboBox>
 
       <ComboBox
@@ -697,7 +699,7 @@ export default class PointWindow extends React.Component {
         state={this.state.depth}
         def={""}
         onUpdate={this.onLocalUpdate}
-        url={"/api/depth/?variable=" + this.state.variable + "&dataset=" + this.state.dataset}
+        url={"/api/v1.0/depth/?variable=" + this.state.variable + "&dataset=" + this.state.dataset}
         title={_("Depth")}></ComboBox>
     </div>}
 
@@ -789,7 +791,7 @@ export default class PointWindow extends React.Component {
               state={this.state.colormap}
               def='default'
               onUpdate={this.onLocalUpdate}
-              url='/api/colormaps/'
+              url='/api/v1.0/colormaps/'
               title={_("Colourmap")}>{_("colourmap_help")}<img src="/colormaps.png" />
             </ComboBox>);
         }
@@ -826,12 +828,14 @@ export default class PointWindow extends React.Component {
             eventKey={TabEnum.SOUND}
             disabled={!hasTempSalinity}>{_("Sound Speed Profile")}</NavItem>
           <NavItem
+            disabled
             eventKey={TabEnum.STICK}>{_("Stick Plot")}</NavItem>
           <NavItem
             eventKey={TabEnum.OBSERVATION}
             disabled={this.props.point[0][2] === undefined}
           >{_("Observation")}</NavItem>
           <NavItem
+            disabled
             eventKey={TabEnum.MOORING}>{_("Virtual Mooring")}</NavItem>
         </Nav>
         <Row>

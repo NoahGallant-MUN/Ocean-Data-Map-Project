@@ -121,7 +121,7 @@ export default class AreaWindow extends React.Component {
 
   */
   onTimeUpdate(key, value) {
-    if (typeof(key) === typeof('string')) {
+    if (typeof (key) === typeof ('string')) {
       value = moment(value.valueOf())
       value.tz('GMT')
       this.setState({
@@ -133,7 +133,7 @@ export default class AreaWindow extends React.Component {
       value = moment(key.valueOf())
       value.tz('GMT')
       this.setState({
-            time: key
+        time: key
       })
     }
   }
@@ -193,7 +193,7 @@ export default class AreaWindow extends React.Component {
     let output_starttime = moment(time.valueOf())
     let output_endtime = moment(time.valueOf())
     let depth = data[layer][index][dataset][variable].depth
-    
+
     if (jQuery.isEmptyObject(this.props.data_compare)) {
       let data_compare = {
         layer: layer,
@@ -404,7 +404,7 @@ export default class AreaWindow extends React.Component {
       }
   }*/
     if (this._mounted) {
-      
+
       let newState = this.state;
       if (key === 'data') {
         newState[key] = value;
@@ -450,13 +450,13 @@ export default class AreaWindow extends React.Component {
   subsetArea() {
     const AABB = this.calculateAreaBoundingBox(this.props.area[0]);
 
-    window.location.href = "/subset/?" +
+    window.location.href = "/api/v1.0/subset/?" +
       "&output_format=" + this.state.output_format +
       "&dataset_name=" + this.state.data.dataset +
       "&variables=" + this.state.output_variables.join() +
       "&min_range=" + [AABB[0], AABB[2]].join() +
       "&max_range=" + [AABB[1], AABB[3]].join() +
-      "&time=" + [this.state.output_starttime.toISOString(), this.state.output_endtime.toISOString()].join() +
+      "&time=" + [this.state.output_starttime, this.state.output_endtime].join() +
       "&user_grid=" + (this.state.convertToUserGrid ? 1 : 0) +
       "&should_zip=" + (this.state.zip ? 1 : 0);
   }
@@ -658,7 +658,7 @@ export default class AreaWindow extends React.Component {
           state={this.state.colormap_diff}
           def='default'
           onUpdate={this.onLocalUpdate}
-          url='/api/colormaps/'
+          url='/api/v1.0/colormaps/'
           title={_("Diff. Colourmap")}
         >
           {_("colourmap_help")}
@@ -733,11 +733,10 @@ export default class AreaWindow extends React.Component {
       {applyChanges2}
     </Panel>);
 
-
     let time = "";
     let timeObj = this.state.output_endtime//new Date(this.props.state.time);
     let starttimeObj = this.state.output_starttime//new Date(this.props.state.starttime);
-    
+
     var subsetPanel = null;
     if (this._mounted) {
       subsetPanel = (<Panel
@@ -760,6 +759,7 @@ export default class AreaWindow extends React.Component {
             title={_("Variables")}
           />
 
+
           <SelectBox
             id='time_range'
             key='time_range'
@@ -767,13 +767,14 @@ export default class AreaWindow extends React.Component {
             onUpdate={(key, value) => { this.setState({ output_timerange: value, }); }}
             title={_("Select Time Range")}
           />
-          
+
           <TimePicker
             range={this.state.output_timerange}
             startid='output_starttime'
             key='output_starttime'
             id='output_endtime'
             dataset={this.state.data.dataset}
+            variable={this.state.data.variable}
             quantum={this.state.data.dataset_quantum}
             startDate={starttimeObj}
             date={timeObj}
@@ -823,7 +824,6 @@ export default class AreaWindow extends React.Component {
           </div>
           */}
 
-
           <FormGroup controlId="output_format">
             <ControlLabel>{_("Output Format")}</ControlLabel>
             <FormControl componentClass="select" onChange={e => { this.setState({ output_format: e.target.value, }); }}>
@@ -841,14 +841,14 @@ export default class AreaWindow extends React.Component {
           </FormGroup>
 
           {/*
-          <SelectBox
-            id='convertToUserGrid'
-            key='convertToUserGrid'
-            state={this.state.convertToUserGrid}
-            onUpdate={this.onLocalUpdate}
-            title={_("Convert to User Grid")}
-          />
-  */}
+        <SelectBox
+          id='convertToUserGrid'
+          key='convertToUserGrid'
+          state={this.state.convertToUserGrid}
+          onUpdate={this.onLocalUpdate}
+          title={_("Convert to User Grid")}
+        />
+        */}
           <SelectBox
             id='zip'
             key='zip'
@@ -883,230 +883,223 @@ export default class AreaWindow extends React.Component {
         </form>
       </Panel>
       );
-
     }
 
-    const globalSettings = (<Panel
-      collapsible
-      defaultExpanded
-      header={_("Global Settings")}
-      bsStyle='primary'
-      key='global_settings'
-    >
-      <SelectBox
-        id='syncToGlobal'
-        key='syncToGlobal'
-        state={this.state.syncLocalToGlobalState}
-        onUpdate={(key, value) => { this.setState({ syncLocalToGlobalState: value, }); }}
-        title={_("Sync to Global State")}
-      />
-    </Panel>
-    );
-
-    let applyChanges1 = <Button
-      key='1'
-      onClick={this.updatePlot}
-    >Apply Changes</Button>
-    var dataset = null
-    if (this.state.data.scale !== undefined) {
-      dataset = (<Panel
-        key='left_map'
-        id='left_map'
+      const globalSettings = (<Panel
         collapsible
         defaultExpanded
-        header={this.state.dataset_compare ? _("Left Map (Anchor)") : _("Main Map")}
+        header={_("Global Settings")}
         bsStyle='primary'
+        key='global_settings'
       >
-        {<DatasetSelector
+        <SelectBox
+          id='syncToGlobal'
+          key='syncToGlobal'
+          state={this.state.syncLocalToGlobalState}
+          onUpdate={(key, value) => { this.setState({ syncLocalToGlobalState: value, }); }}
+          title={_("Sync to Global State")}
+        />
+      </Panel>
+      );
+
+      let applyChanges1 = <Button
+        key='1'
+        onClick={this.updatePlot}
+      >Apply Changes</Button>
+      var dataset = null
+      if (this.state.data.scale !== undefined) {
+        dataset = (<Panel
+          key='left_map'
+          id='left_map'
+          collapsible
+          defaultExpanded
+          header={this.state.dataset_compare ? _("Left Map (Anchor)") : _("Main Map")}
+          bsStyle='primary'
+        >
+          {<DatasetSelector
             key='data'
             id='data'
             multiple={this.state.currentTab === 2}
             state={this.state.data}
             onUpdate={this.onLocalUpdate}
             depth={true}
-        />}
-        <div style={{ "display": this.state.currentTab == 1 ? "block" : "none" }}>
-          <Range
-            auto
-            key='scale'
-            id='scale'
-            state={this.state.data.scale}
-            def={""}
-            onUpdate={this.onLocalUpdate}
-            title={_("Variable Range")}
-          />
-          <ComboBox
-            key='leftColormap'
-            id='leftColormap'
-            state={this.state.leftColormap}
-            def='default'
-            onUpdate={this.onLocalUpdate}
-            url='/api/colormaps/'
-            title={_("Colourmap")}
+          />}
+          <div style={{ "display": this.state.currentTab == 1 ? "block" : "none" }}>
+            <Range
+              auto
+              key='scale'
+              id='scale'
+              state={this.state.data.scale}
+              def={""}
+              onUpdate={this.onLocalUpdate}
+              title={_("Variable Range")}
+            />
+            <ComboBox
+              key='leftColormap'
+              id='leftColormap'
+              state={this.state.leftColormap}
+              def='default'
+              onUpdate={this.onLocalUpdate}
+              url='/api/colormaps/'
+              title={_("Colourmap")}
+            >
+              {_("colourmap_help")}
+              <img src="/colormaps.png" />
+            </ComboBox>
+          </div>
+          {applyChanges1}
+        </Panel>);
+      }
+
+      let applyChanges_compare = <Button
+        key='compare'
+        onClick={this.updatePlot}
+      >Apply Changes</Button>
+
+      const compare_dataset = <div key='compare_dataset'>
+        <div style={{ "display": this.state.dataset_compare ? "block" : "none" }}>
+          <Panel
+            key='right_map'
+            id='right_map'
+            collapsible
+            defaultExpanded
+            header={_("Right Map")}
+            bsStyle='primary'
           >
-            {_("colourmap_help")}
-            <img src="/colormaps.png" />
-          </ComboBox>
+            <DatasetSelector
+              key='data_compare'
+              id='data_compare'
+              state={this.state.data_compare}
+              onUpdate={this.onLocalUpdate}
+            />
+
+            <Range
+              auto
+              key='compare_scale'
+              id='compare_scale'
+              state={this.state.data_compare.scale}
+              def={""}
+              onUpdate={this.onLocalUpdate}
+              title={_("Variable Range")}
+            />
+
+            <ComboBox
+              key='rightColormap'
+              id='rightColormap'
+              state={this.state.rightColormap}
+              def='default'
+              onUpdate={this.onLocalUpdate}
+              url='/api/v1.0/colormaps/'
+              title={_("Colourmap")}
+            >
+              {_("colourmap_help")}
+              <img src="/colormaps.png" />
+            </ComboBox>
+            {applyChanges_compare}
+          </Panel>
         </div>
-        {applyChanges1}
-      </Panel>);
+      </div>;
 
-    }
-
-    let applyChanges_compare = <Button
-      key='compare'
-      onClick={this.updatePlot}
-    >Apply Changes</Button>
-    const compare_dataset = <div key='compare_dataset'>
-      <div style={{ "display": this.state.dataset_compare ? "block" : "none" }}>
-        <Panel
-          key='right_map'
-          id='right_map'
-          collapsible
-          defaultExpanded
-          header={_("Right Map")}
-          bsStyle='primary'
-        >
-          <DatasetSelector
-            key='data_compare'
-            id='data_compare'
-            state={this.state.data_compare}
-            onUpdate={this.onLocalUpdate}
-          />
-
-          <Range
-            auto
-            key='compare_scale'
-            id='compare_scale'
-            state={this.state.data_compare.scale}
-            def={""}
-            onUpdate={this.onLocalUpdate}
-            title={_("Variable Range")}
-          />
-
-          <ComboBox
-            key='rightColormap'
-            id='rightColormap'
-            state={this.state.rightColormap}
-            def='default'
-            onUpdate={this.onLocalUpdate}
-            url='/api/colormaps/'
-            title={_("Colourmap")}
-          >
-            {_("colourmap_help")}
-            <img src="/colormaps.png" />
-          </ComboBox>
-          {applyChanges_compare}
-        </Panel>
-      </div>
-    </div>;
-
-    let leftInputs = [];
-    let rightInputs = [];
+      let leftInputs = [];
+      let rightInputs = [];
 
 
+      //this.updatePlot()
 
-
-
-    //this.updatePlot()
-
-    switch (this.state.currentTab) {
-      case 1:
-        leftInputs = [/*globalSettings*/mapSettings, subsetPanel];
-
-        if (this.state.dataset_compare) {
-          rightInputs = [dataset, compare_dataset]
-        } else {
-          rightInputs = [dataset];
-        }
-        break;
-      case 2:
-        leftInputs = [/*globalSettings*/dataset, applyChanges1];
-        break;
-    }
-
-
-
-
-    let content;
-    if (this.state.plot_query !== undefined) {
       switch (this.state.currentTab) {
         case 1:
-          if (this.state.data.time !== undefined) {
-            content = <PlotImage
-              query={this.state.plot_query} // For image saving link.
-              permlink_subquery={this.state}
-              action={this.props.action}
-            />;
-          }
+          leftInputs = [/*globalSettings*/mapSettings, subsetPanel];
 
+          if (this.state.dataset_compare) {
+            rightInputs = [dataset, compare_dataset]
+          } else {
+            rightInputs = [dataset];
+          }
           break;
         case 2:
-          content = <StatsTable query={this.state.plot_query} />;
+          leftInputs = [/*globalSettings*/dataset, applyChanges1];
           break;
       }
-    } else {
-      content = <img src={Spinner} />;
+
+      let content;
+      if (this.state.plot_query !== undefined) {
+        switch (this.state.currentTab) {
+          case 1:
+            if (this.state.data.time !== undefined) {
+              content = <PlotImage
+                query={this.state.plot_query} // For image saving link.
+                permlink_subquery={this.state}
+                action={this.props.action}
+              />;
+            }
+
+            break;
+          case 2:
+            content = <StatsTable query={this.state.plot_query} />;
+            break;
+        }
+      } else {
+        content = <img src={Spinner} />;
+      }
+
+
+      return (
+        <div className='AreaWindow Window'>
+          <Nav
+            bsStyle="tabs"
+            activeKey={this.state.currentTab}
+            onSelect={this.onTabChange}
+          >
+            <NavItem eventKey={1}>{_("Map")}</NavItem>
+            <NavItem eventKey={2}>{_("Statistics")}</NavItem>
+          </Nav>
+          <Row>
+            <Col lg={3}>
+              <Panel
+                key='data_selection'
+                id='data_selection'
+                collapsible
+                defaultExpanded
+                header={_("Layer")}
+                bsStyle='primary'
+              >
+                {dataSelection}
+              </Panel>
+              {leftInputs}
+            </Col>
+            <Col lg={6}>
+              {content}
+            </Col>
+            <Col lg={3}>
+              {rightInputs}
+            </Col>
+          </Row>
+        </div>
+      );
     }
-
-
-    return (
-      <div className='AreaWindow Window'>
-        <Nav
-          bsStyle="tabs"
-          activeKey={this.state.currentTab}
-          onSelect={this.onTabChange}
-        >
-          <NavItem eventKey={1}>{_("Map")}</NavItem>
-          <NavItem eventKey={2}>{_("Statistics")}</NavItem>
-        </Nav>
-        <Row>
-          <Col lg={3}>
-            <Panel
-              key='data_selection'
-              id='data_selection'
-              collapsible
-              defaultExpanded
-              header={_("Layer")}
-              bsStyle='primary'
-            >
-              {dataSelection}
-            </Panel>
-            {leftInputs}
-          </Col>
-          <Col lg={6}>
-            {content}
-          </Col>
-          <Col lg={3}>
-            {rightInputs}
-          </Col>
-        </Row>
-      </div>
-    );
   }
-}
 
-//***********************************************************************
-AreaWindow.propTypes = {
-  data: PropTypes.object,
-  data_compare: PropTypes.object,
-  depth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  area: PropTypes.array,
-  time: PropTypes.number,
-  generatePermLink: PropTypes.func,
-  dataset_1: PropTypes.object,
-  dataset_compare: PropTypes.bool,
-  variable: PropTypes.string,
-  projection: PropTypes.string,
-  dataset_0: PropTypes.object,
-  quantum: PropTypes.string,
-  name: PropTypes.string,
-  onUpdate: PropTypes.func,
-  scale: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  init: PropTypes.object,
-  action: PropTypes.func,
-  showHelp: PropTypes.func,
-  swapViews: PropTypes.func,
-  scale_1: PropTypes.string,
-  options: PropTypes.object,
-};
+  //***********************************************************************
+  AreaWindow.propTypes = {
+    data: PropTypes.object,
+    data_compare: PropTypes.object,
+    depth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    area: PropTypes.array,
+    time: PropTypes.number,
+    generatePermLink: PropTypes.func,
+    dataset_1: PropTypes.object,
+    dataset_compare: PropTypes.bool,
+    variable: PropTypes.string,
+    projection: PropTypes.string,
+    dataset_0: PropTypes.object,
+    quantum: PropTypes.string,
+    name: PropTypes.string,
+    onUpdate: PropTypes.func,
+    scale: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+    init: PropTypes.object,
+    action: PropTypes.func,
+    showHelp: PropTypes.func,
+    swapViews: PropTypes.func,
+    scale_1: PropTypes.string,
+    options: PropTypes.object,
+  };
