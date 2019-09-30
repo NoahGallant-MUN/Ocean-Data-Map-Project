@@ -73,7 +73,7 @@ export default class OceanNavigator extends React.Component {
           value: 'Wind Barbs (BETA)',
         }*/
       ],
-
+      
       dataset: "giops_day",
       variable: "votemper",
       variable_scale: [-5, 30], // Default variable range for left/Main Map
@@ -724,6 +724,15 @@ export default class OceanNavigator extends React.Component {
 
     }
 
+    let plot_container = undefined
+    if (this.state.plotEnabled) {
+      plot_container = 
+      <PlotContainer
+        map_left={this.mapComponent}
+        map_right={this.mapComponent2}
+        globalUpdate={this.updateState}
+      ></PlotContainer>
+    }
 
     return (
       <div className='OceanNavigator'>
@@ -747,10 +756,7 @@ export default class OceanNavigator extends React.Component {
           />*/}
 
           {map}
-          <PlotContainer
-            map_left={this.mapComponent}
-            map_right={this.mapComponent2}
-          ></PlotContainer>
+          {plot_container}
         </div>
 
         

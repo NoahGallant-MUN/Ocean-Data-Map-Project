@@ -104,7 +104,7 @@ export default class PlotContainer extends React.Component {
             <PlotSelectionBar
                 togglePlotSelection={this.togglePlotSelection}
                 currentState={this.state.selectPlot}
-                closeModal={() => { console.warn("FEATURE NOT IMPLEMENTED") }}
+                globalUpdate={this.props.globalUpdate}
             ></PlotSelectionBar>
         )
         if (this.state.selectPlot || this.state.current_plots === {}) {

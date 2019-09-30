@@ -19,8 +19,8 @@ export default class PlotSelectionBar extends React.Component {
                 >{_("Select Plot")}</Button>
                 <Button
                     className='PlotClose'
-                    onClick={this.props.closeModal}
-                ></Button>
+                    onClick={() => {this.props.globalUpdate('plotEnabled', false)}}
+                >X</Button>
 
             </div>
             )
