@@ -32,11 +32,20 @@ export default class StatsTable extends React.Component {
     this._mounted = false;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.urlFromQuery(this.props.query) !== this.urlFromQuery(prevProps.query)) {
+      this.populate(this.props);
+    }
+  }
+
+  /*
+  DEPRECATED
   componentWillReceiveProps(props) {
     if (this.urlFromQuery(this.props.query) !== this.urlFromQuery(props.query)) {
       this.populate(props);
     }
   }
+  */
 
   populate(props) {
 

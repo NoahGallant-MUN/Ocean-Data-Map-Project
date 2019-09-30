@@ -29,9 +29,16 @@ export default class CustomPlotLabels extends React.PureComponent {
     this.updateState = this. updateState.bind(this);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    this.setState({userProvidedTitle: this.props.plotTitle});
+  }
+  
+  /* 
+  DEPRECATED
   componentWillReceiveProps(nextProps) {
     this.setState({userProvidedTitle: nextProps.plotTitle});
   }
+  */
 
   //Updates new title value as user types
   updateState(e) {

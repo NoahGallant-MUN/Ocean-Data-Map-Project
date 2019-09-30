@@ -46,6 +46,29 @@ export default class Range extends React.Component {
     this._mounted = false;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    //Sets scale to default on variable change
+    if (this.props.setDefaultScale === true) {
+      this.handleDefaultButton(); // Changes Scale
+      this.props.onUpdate("setDefaultScale", false);
+    }
+
+    if (stringify(this.props) !== stringify(prevProps)) {
+      let scale = this.props.state;
+      if (typeof (scale.split) === "function") {
+        scale = scale.split(",");
+      }
+      if (scale.length > 1) {
+        this.setState({
+          min: parseFloat(scale[0]),
+          max: parseFloat(scale[1]),
+        })
+      }
+    }
+  }
+
+  /*
+  DEPRECATED
   componentWillReceiveProps(nextProps) {
 
     //Sets scale to default on variable change
@@ -67,7 +90,9 @@ export default class Range extends React.Component {
       }
     }
   }
+  */
 
+  
   /*
 
   */

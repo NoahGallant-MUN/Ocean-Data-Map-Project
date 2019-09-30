@@ -76,11 +76,17 @@ export default class PlotImage extends React.PureComponent {
     this.loadImage(this.generateQuery(this.props.query));
   }
 
-  /*componentDidUpdate(prevProps, prevState) {
-    if (stringify(this.props.query) !== stringify(prevProps.query)) {
+  componentDidUpdate(prevProps, prevState) {
+    if (stringify(this.props.query) !== stringify(prevProps.query) || stringify(this.props.compare_to) !== stringify(prevProps.query.compare_to)) {
+      this.setState({
+        loading: true
+      })
       this.loadImage(this.generateQuery(this.props.query))
     }
-  }*/
+  }
+
+  /*
+  DEPRECATED
   componentWillReceiveProps(props) {
     if (stringify(this.props.query) !== stringify(props.query) || stringify(this.props.query.compare_to) !== stringify(this.props.query.compare_to)) {
       this.setState({
@@ -89,6 +95,8 @@ export default class PlotImage extends React.PureComponent {
       this.loadImage(this.generateQuery(props.query));
     }
   }
+  */
+
   componentWillUnmount() {
     this._mounted = false;
   }
