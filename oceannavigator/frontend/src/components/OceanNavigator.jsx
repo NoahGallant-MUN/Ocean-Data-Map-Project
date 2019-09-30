@@ -88,7 +88,7 @@ export default class OceanNavigator extends React.Component {
       starttime: -2, // Start time for Left Map
       scale: "-5,30", // Variable scale for left/Main Map
       scale_1: "-5,30", // Variable scale for Right Map
-      plotEnabled: false, // "Plot" button in MapToolbar
+      plotEnabled: true, // "Plot" button in MapToolbar
       projection: "EPSG:3857", // Map projection
       showModal: false,
       layers: [],
