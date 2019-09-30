@@ -14,7 +14,6 @@ export default class PlotSelectionButtons extends React.Component {
 
     render() {
         let availablePlots = [];
-        console.warn("BUTTON NAMES: ", this.props.buttonNames)
         for (let name in this.props.buttonNames) {
             availablePlots.push(
                 <SelectPlot

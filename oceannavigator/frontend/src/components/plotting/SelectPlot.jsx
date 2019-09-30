@@ -11,7 +11,6 @@ export default class SelectPlot extends React.Component {
     }
 
     toggle() {
-        console.warn("TOGGLE")
         this.props.toggle()
     }
 

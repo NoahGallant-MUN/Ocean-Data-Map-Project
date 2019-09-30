@@ -46,7 +46,6 @@ export function formatQuery(data) {
         variable: ["votemper"]
     }
     let url = "/api/v1.0/plot/?query=" + encodeURIComponent(stringify(query));
-    console.warn("URL: ", url);
     return url;
 }
 
@@ -64,7 +63,6 @@ export function plot(layers) {
     for (let layer in layers) {
         layers.push(this.parseLayer(layer));
     }
-    console.warn("LAYERS: ", layers);
     let layerData = undefined;
     let request = new XMLHttpRequest();
 
