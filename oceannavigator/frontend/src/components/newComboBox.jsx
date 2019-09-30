@@ -101,14 +101,12 @@ export default class NewComboBox extends React.Component {
   }
 
   handleChange(e) {
-    console.warn("HANDLE CHANGE: ", e, e.target.value);
     this.props.localUpdate(this.props.name, e.target.value)
   }
 
   render() {
     
     let self = this;
-    console.warn("IDX LIST: ", this.state.idx_list)
     const options = this.state.idx_list.map(function(o) {
       var opts = {
         key: self.state.id_list[o],
