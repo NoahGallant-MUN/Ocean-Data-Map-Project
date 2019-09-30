@@ -49,6 +49,7 @@ export function formatQuery(data) {
     return url;
 }
 
+
 /*
     This function will use the data in one or more map layers to fetch and return a plot
 
@@ -66,7 +67,6 @@ export function plot(layers) {
     let layerData = undefined;
     let request = new XMLHttpRequest();
 
-    /*  REQUESTS PLOT
     request.open('GET', this.formatQuery( layerData ))
     request.send();
 
@@ -75,8 +75,7 @@ export function plot(layers) {
     } else {
         return false
     }
-    */
-
+    
     let test_image = <img src={wave} className='PlotImage'></img>
     return test_image
 }
