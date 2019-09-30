@@ -122,8 +122,8 @@ export default class PlotContainer extends React.Component {
             for (let elem = 0; elem < num_elems / 2; elem++) {
                 for (let i = 0; i < 1; i++) {
                     console.warn(this.state.current_plots)
-                    console.warn(elem * num_elems + i)
-                    availablePlots.push(this.state.current_plots[(elem * num_elems) + i].image);
+                    console.warn(elem * num_elems)
+                    availablePlots.push(this.state.current_plots[(elem * num_elems)].image);
                 }
             }
 
