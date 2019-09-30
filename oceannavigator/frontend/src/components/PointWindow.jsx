@@ -94,10 +94,7 @@ export default class PointWindow extends React.Component {
 
   }
 
-  componentWillUpdate(prevProps, prevState) {
-    return
-  }
-
+  
   componentWillUnmount() {
     this._mounted = false;
   }
