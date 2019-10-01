@@ -542,7 +542,7 @@ export default class Layer extends React.Component {
       this.changeDataset(undefined)
     }
 
-    if (true /*this.state.datasets != [] && this.state.variables != [] && this.props.state.timestamps !== {} && this.props.state.timestamps !== undefined*/) {
+    if (prevProps !== this.props || prevState !== this.state) {
       this.updateDates();
       if (this.props.state.timestamps !== prevProps.state.timestamps || this.state.current_dataset !== prevState.current_dataset || this.state.current_variable !== prevState.current_variable || this.props.state.projection !== prevProps.state.projection) {
         this.updateLayer();
