@@ -12,8 +12,9 @@ from flask_babel import gettext
 import routes.routes_impl
 from data import open_dataset
 from data.sqlite_database import SQLiteDatabase
-from data.utils import (DateTimeEncoder, get_data_vars_from_equation,
-                        time_index_to_datetime, datetime_to_timestamp)
+from data.utils import (DateTimeEncoder, datetime_to_timestamp,
+                        get_data_vars_from_equation, string_to_datetime,
+                        timestamp_to_datetime)
 from oceannavigator import DatasetConfig
 from plotting.scriptGenerator import generatePython, generateR
 from utils.errors import APIError, ErrorBase
@@ -330,6 +331,11 @@ def subset_query_v1_0():
 
     config = DatasetConfig(args.get('dataset_name'))
     time_range = args['time'].split(',')
+    time_range[0] = datetime_to_timestamp(
+        string_to_datetime(time_range[0]), config.time_dim_units)
+    time_range[1] = datetime_to_timestamp(
+        string_to_datetime(time_range[1]), config.time_dim_units)
+
     variables = args['variables'].split(',')
     with open_dataset(config, variable=variables, timestamp=int(time_range[0]), endtime=int(time_range[1])) as dataset:
         working_dir, subset_filename = dataset.subset(args)
@@ -435,7 +441,7 @@ def timestamps():
             vals = db.get_timestamps(data_vars[0])
         else:
             vals = db.get_timestamps(variable)
-    converted_vals = time_index_to_datetime(vals, config.time_dim_units)
+    converted_vals = timestamp_to_datetime(vals, config.time_dim_units)
 
     result = []
     for idx, date in enumerate(converted_vals): #TODO: dump the enumerate once the front-end is off the indexes.
@@ -462,6 +468,7 @@ def timestamp_for_date_v1_0(old_dataset: str, date: int, new_dataset: str):
 @bp_v1_0.route('/api/v1.0/tiles/<string:interp>/<int:radius>/<int:neighbours>/<string:projection>/<string:dataset>/<string:variable>/<string:time>/<string:depth>/<string:scale>/<int:masked>/<string:display>/<int:zoom>/<int:x>/<int:y>.png')
 def tile_v1_0(projection: str, interp: str, radius: int, neighbours: int, dataset: str, variable: str, time: str, depth: str, scale: str, masked: int, display: str, zoom: int, x: int, y: int):
 
+    config = DatasetConfig(dataset)
     timestamp = datetime_to_timestamp(
         string_to_datetime(time), config.time_dim_units)
 
