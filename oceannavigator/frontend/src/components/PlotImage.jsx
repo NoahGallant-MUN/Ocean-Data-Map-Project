@@ -77,7 +77,7 @@ export default class PlotImage extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (stringify(this.props.query) !== stringify(prevProps.query) || stringify(this.props.compare_to) !== stringify(prevProps.query.compare_to)) {
+    if (stringify(this.props.query) !== stringify(prevProps.query) || stringify(this.props.query.compare_to) !== stringify(prevProps.query.compare_to)) {
       this.setState({
         loading: true
       })
