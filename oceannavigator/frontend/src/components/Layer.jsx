@@ -543,7 +543,7 @@ export default class Layer extends React.Component {
     }
 
     if (prevProps !== this.props || prevState !== this.state) {
-      this.updateDates();
+      //this.updateDates();
       if (this.props.state.timestamps !== prevProps.state.timestamps || this.state.current_dataset !== prevState.current_dataset || this.state.current_variable !== prevState.current_variable || this.props.state.projection !== prevProps.state.projection) {
         this.updateLayer();
         this.sendData();

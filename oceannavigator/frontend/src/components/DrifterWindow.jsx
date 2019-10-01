@@ -122,9 +122,7 @@ export default class DrifterWindow extends React.Component {
     let quantum = data[layer][index][dataset][variable].quantum
     let scale = data[layer][index][dataset][variable].scale
     //let time = data[layer][index][dataset][variable].time
-    //console.warn("TIME: ", time)
     //time = moment.tz(time, 'GMT')
-    //console.warn("MOMENT: ", time)
     //time.setUTCMonth(time.getUTCMonth() - 1)
     this.setState({
       layer: layer,
