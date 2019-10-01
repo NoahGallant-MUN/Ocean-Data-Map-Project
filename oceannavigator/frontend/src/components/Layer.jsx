@@ -301,6 +301,7 @@ export default class Layer extends React.Component {
         current_variable: new_variable,
         current_scale: new_scale,
       }, () => {
+        this.updateDates();
         this.changeTimeSource({
           new_dataset: new_dataset,
           new_quantum: new_quantum,
@@ -805,7 +806,6 @@ export default class Layer extends React.Component {
     this.setState({
       layer: new_layer
     })
-    this.updateDates();
   }
 
   /*
@@ -852,8 +852,7 @@ export default class Layer extends React.Component {
     
     layer.setSource(newSource)  // Apply the new Changes to the layer
     
-    this.updateDates();
-
+    
     // Create Scale Bar and Add to Layer
     let scaleBar = <div key={this.state.current_dataset + this.state.current_variable + this.props.layerType}>
     {this.state.icons[this.props.layerType]}
