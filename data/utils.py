@@ -48,7 +48,7 @@ def get_data_vars_from_equation(equation: str, data_variables: List[str]) -> Lis
     return list(variables & data_vars)
 
 def string_to_datetime(string: str) -> datetime.datetime:
-    return dateutil.parser.parse(string).replace(txinfo=pytz.UTC)
+    return dateutil.parser.parse(string).replace(tzinfo=pytz.UTC)
 
 def datetime_to_timestamp(datetime: datetime.datetime, time_units: str):
 
