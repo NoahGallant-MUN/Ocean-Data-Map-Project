@@ -330,6 +330,8 @@ export default class AreaWindow extends React.Component {
         newState[key] = value;
       } else if (key === 'compare_scale') {
         newState['data_compare']['scale'] = value
+      } else if (key === 'dataset_compare') {
+        this.props.updateParent()
       } else if (typeof (key) === "string") {
         newState[key] = value;
       }

@@ -103,6 +103,7 @@ export default class ModalContainer extends React.Component {
               point={this.props.point}
               names={this.props.names}
               onUpdate={this.props.onUpdate}
+              updateParent={() => this.selectCompare(this.state.data)}
               init={this.props.init}
               action={this.props.action}
               showHelp={this.props.showHelp}
@@ -123,6 +124,7 @@ export default class ModalContainer extends React.Component {
               line={this.props.line}
               names={this.props.names}
               onUpdate={this.props.updateState}
+              updateParent={() => this.selectCompare(this.state.data)}
               init={this.props.init}
               action={this.props.action}
               showHelp={this.props.showHelp}
@@ -145,6 +147,7 @@ export default class ModalContainer extends React.Component {
               onUpdate={this.props.updateState}
               init={this.props.init}
               dataset_compare={this.state.dataset_compare}
+              updateParent={() => this.selectCompare(this.state.data)}
               showHelp={this.props.showHelp}
               action={this.props.action}
               swapViews={this.props.swapViews}
