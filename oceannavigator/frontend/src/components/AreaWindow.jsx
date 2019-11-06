@@ -320,69 +320,7 @@ export default class AreaWindow extends React.Component {
   }
 
   onLocalUpdate(key, value) {
-    /*
-    if (this._mounted) {
 
-      /*
-      // Passthrough to capture selected variables from DatasetSelector for StatsTable
-      if (key === "dataset_0") {
-        if (this.state.currentTab === 2 && value.hasOwnProperty("variable")) {
-          this.setState({
-            variable: value.variable
-          });
-        }
-
-        this.setState({dataset_0: value,});
-
-        // TODO: prevent the navigator trying to get tiles for multiple variables...only one
-        // variable should be passed up.
-        if (this.state.syncLocalToGlobalState) {
-          this.props.onUpdate(key, value);
-        }
-
-        return;
-      }
-      
-
-      let newState = {};
-      if (typeof(key) === "string") {
-        newState[key] = value;
-      } else {
-        for (let i = 0; i < key.length; i++) {
-          newState[key[i]] = value[i];
-        }
-      }
-      this.setState(newState);
-
-      if (this.state.syncLocalToGlobalState) {
-        this.props.onUpdate(key, value);
-
-        let parentKeys = [];
-        let parentValues = [];
-
-        if (newState.hasOwnProperty("variable_scale")) {
-          if (typeof(this.state.variable) === "string" ||
-            this.state.variable.length === 1) {
-            parentKeys.push("variable_scale");
-            parentValues.push(newState.variable_scale);
-          }
-        }
-
-        if (newState.hasOwnProperty("variable")) {
-          if (typeof(this.state.variable) === "string") {
-            parentKeys.push("variable");
-            parentValues.push(newState.variable);
-          } else if (this.state.variable.length === 1) {
-            parentKeys.push("variable");
-            parentValues.push(newState.variable[0]);
-          }
-        }
-
-        if (parentKeys.length > 0) {
-          this.props.onUpdate(parentKeys, parentValues);
-        }
-      }
-  }*/
     if (this._mounted) {
 
       let newState = this.state;
@@ -403,9 +341,6 @@ export default class AreaWindow extends React.Component {
 
       this.setState(newState);
 
-      /*this.setState({
-        [key]: value
-      })*/
     }
   }
 
@@ -756,49 +691,7 @@ export default class AreaWindow extends React.Component {
             date={timeObj}
             onTimeUpdate={this.onTimeUpdate}
           ></TimePicker>
-          {/*
-          <TimePicker
-            id='output_starttime'
-            key='starttime'
-            state={this.state.output_starttime}
-            //def=''
-            quantum={this.state.data.quantum}
-            date={this.state.data.time}
-            onTimeUpdate={}
-            //url={"/api/timestamps/?dataset=" +
-            //  this.state.data.dataset +
-            //  "&quantum=" +
-            //  this.state.data.quantum}
-            //title={this.state.output_timerange ? _("Start Time") : _("Time")}
-            
-            //onUpdate={(key, value) => { this.setState({ output_starttime: value, }); }}
-            //max={this.state.data.time + 1}
-            //updateDate={this.updateDate}
-          />
-          */}
-          {/* 
-          <div style={{ display: this.state.output_timerange ? "block" : "none", }}>
-            <TimePicker
-              id='output_endtime'
-              startid='output_starttime'
-              range={true}
-              key='time'
-              dataset={this.state.data.dataset}
-              quantum={this.state.data.quantum}
-              startDate={this.state.output_starttime}
-              date={this.state.output_endtime}
-              //state={this.state.output_endtime}
-              //def=''
-              //url={"/api/timestamps/?dataset=" +
-              //  this.state.data.dataset +
-              //  "&quantum=" +
-              //  this.state.data.quantum}
-              //title={_("End Time")}
-              //onUpdate={(key, value) => { this.setState({ output_endtime: value, }); }}
-              //min={this.state.data.time}
-            />
-          </div>
-          */}
+
 
           <FormGroup controlId="output_format">
             <ControlLabel>{_("Output Format")}</ControlLabel>
